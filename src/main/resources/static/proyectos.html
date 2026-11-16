@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#3b46d9">
+    <title>Mis proyectos | TeamUp Campus</title>
+    <meta name="description" content="Gestiona tus proyectos, integrantes y avance en TeamUp Campus.">
+    <meta name="author" content="Kathrym Oriana">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="assets/svg/logo.svg">
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="app">
+        <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+        <aside class="sidebar" id="sidebar" aria-label="Navegación principal" data-include="partials/sidebar.html">
+        </aside>
+
+        <div class="main main--page">
+            <header class="topbar topbar--line" data-include="partials/topbar.html"></header>
+
+            <main class="page">
+                <section class="page-hero" aria-labelledby="titulo">
+                    <div class="d-inline-flex gap-4 align-items-center">
+                        <img class="page-hero__icon" src="assets/img/icono-proyecto-1.png" alt="">
+                        <div class="d-flex flex-column">
+                            <p class="page-hero__kicker">MIS PROYECTOS</p>
+                            <h1 id="titulo">Proyectos académicos</h1>
+                            <p>Aquí puedes ver y gestionar todos tus proyectos grupales. Mantén todo organizado <br>y da
+                                seguimiento al avance de cada uno.</p>
+                        </div>
+                    </div>
+                    <div class="d-inline-flex gap-4 align-items-center page-hero__right">
+                        <img class="page-hero__img" src="assets/img/hero-progreso.png" alt="Laptop con planta">
+                        <button class="btn btn-tu btn-tu--lg" type="button" id="btnNuevo"><i class="bi bi-plus-lg"></i>
+                            Nuevo proyecto</button>
+                    </div>
+                </section>
+
+                <section class="stats-row" aria-label="Resumen de proyectos">
+                    <article class="stat-h stat-h--blue"><span class="stat-h__icon"><i class="bi bi-folder"></i></span>
+                        <div>
+                            <p class="stat-h__label">Total de proyectos</p>
+                            <p class="stat-h__value" id="resTotal">0</p>
+                        </div>
+                    </article>
+                    <article class="stat-h stat-h--green"><span class="stat-h__icon"><i
+                                class="bi bi-check-lg"></i></span>
+                        <div>
+                            <p class="stat-h__label">En progreso</p>
+                            <p class="stat-h__value" id="resProgreso">0</p>
+                        </div>
+                    </article>
+                    <article class="stat-h stat-h--sky"><span class="stat-h__icon"><i class="bi bi-clock"></i></span>
+                        <div>
+                            <p class="stat-h__label">Pendientes</p>
+                            <p class="stat-h__value" id="resPendientes">0</p>
+                        </div>
+                    </article>
+                    <article class="stat-h stat-h--red"><span class="stat-h__icon"><i
+                                class="bi bi-exclamation-circle"></i></span>
+                        <div>
+                            <p class="stat-h__label">Atrasados</p>
+                            <p class="stat-h__value" id="resAtrasados">0</p>
+                        </div>
+                    </article>
+                </section>
+
+                <form class="filters" aria-label="Filtros de proyectos">
+                    <div class="filters__search"><i class="bi bi-search"></i><input id="fBuscar" type="search"
+                            placeholder="Buscar proyecto..." aria-label="Buscar proyecto"></div>
+                    <label class="filters__select"><i class="bi bi-book"></i>
+                        <select id="fCurso" class="form-select" aria-label="Curso">
+                            <option value="">Todos los cursos</option>
+                        </select></label>
+                    <label class="filters__select"><i class="bi bi-clock"></i>
+                        <select id="fEstado" class="form-select" aria-label="Estado">
+                            <option value="">Todos los estados</option>
+                            <option>En progreso</option>
+                            <option>Pendiente</option>
+                            <option>En planificación</option>
+                        </select></label>
+                    <label class="filters__select filters__select--wide"><i class="bi bi-arrow-down-up"></i>
+                        <select id="fOrden" class="form-select" aria-label="Ordenar">
+                            <option value="reciente">Ordenar por: Más recientes</option>
+                            <option value="entrega">Ordenar por: Fecha de entrega</option>
+                            <option value="avance">Ordenar por: Mayor avance</option>
+                        </select></label>
+                </form>
+
+                <section class="project-grid" id="listaProyectos" aria-label="Lista de proyectos"></section>
+                <p class="empty" id="vacio" hidden>
+                    <span id="vacioFiltros">No se encontraron proyectos con esos filtros. <button type="button"
+                            class="btn btn-link p-0 align-baseline" data-action="clear">Limpiar filtros</button></span>
+                    <span id="vacioNuevo" hidden>Todavía no tienes proyectos. <button type="button"
+                            class="btn btn-link p-0 align-baseline" data-action="new">Crea el primero</button></span>
+                </p>
+            </main>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalNuevo" tabindex="-1" aria-labelledby="modalTitulo" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <form class="modal-content" id="formNuevo" novalidate>
+                <div class="modal-header">
+                    <h2 class="modal-title fs-5" id="modalTitulo">Nuevo proyecto</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body d-grid gap-3">
+                    <div><label class="form-label" for="nNombre">Nombre</label><input class="form-control" id="nNombre"
+                            maxlength="120" required></div>
+                    <div><label class="form-label" for="nCurso">Curso</label><select class="form-select" id="nCurso"
+                            required></select></div>
+                    <div><label class="form-label" for="nDesc">Descripción</label><textarea class="form-control"
+                            id="nDesc" rows="2" maxlength="500"></textarea></div>
+                    <div class="row g-3">
+                        <div class="col"><label class="form-label" for="nFecha">Entrega</label><input type="date"
+                                class="form-control" id="nFecha" required></div>
+                        <div class="col"><label class="form-label" for="nEstado">Estado</label>
+                            <select class="form-select" id="nEstado">
+                                <option>En progreso</option>
+                                <option>Pendiente</option>
+                                <option>En planificación</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p class="text-muted small mb-0">Después de crear el proyecto podrás invitar integrantes desde
+                        «Administrar integrantes».</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-tu" id="btnGuardarProyecto">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalMiembros" tabindex="-1" aria-labelledby="mmTitulo" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title fs-5" id="mmTitulo">Integrantes</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted small" id="mmInfo"></p>
+                    <ul class="members" id="mmLista"></ul>
+                    <form id="mmForm" class="row g-2 mt-3 align-items-end" novalidate>
+                        <div class="col-md-4"><label class="form-label small" for="mmNombre">Nombre</label><input
+                                class="form-control" id="mmNombre" placeholder="Solo si es nuevo"></div>
+                        <div class="col-md-4"><label class="form-label small" for="mmEmail">Correo *</label><input
+                                type="email" class="form-control" id="mmEmail" placeholder="nombre@campus.edu" required>
+                        </div>
+                        <div class="col-md-2"><label class="form-label small" for="mmRol">Rol</label>
+                            <select class="form-select" id="mmRol">
+                                <option>Integrante</option>
+                                <option>Administrador</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2"><button class="btn btn-tu w-100" type="submit">Agregar</button></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <template id="tpl-member-row">
+        <li>
+            <span data-slot="avatar"></span>
+            <div class="members__info"><strong data-text="nombre"></strong><small data-text="email"></small></div>
+            <select class="form-select form-select-sm members__rol" data-admin-only
+                data-attr="data-user:userId; aria-label:rolAria">
+                <option>Integrante</option>
+                <option>Administrador</option>
+            </select>
+            <button type="button" class="members__del" data-admin-only data-action="remove"
+                data-attr="data-user:userId; aria-label:quitarAria"><i class="bi bi-person-x"></i></button>
+            <span class="badge-tu" data-read-only data-class="rolClass" data-text="rol"></span>
+        </li>
+    </template>
+
+    <template id="tpl-project-card">
+        <article class="pcard">
+            <div class="pcard__head">
+                <img class="pcard__icon" alt="" data-attr="src:icono">
+                <div class="pcard__info">
+                    <div class="d-flex align-items-start justify-content-between g-4">
+                        <h2 class="pcard__title"><a class="text-reset text-decoration-none" data-attr="href:href"
+                                data-text="nombre"></a></h2>
+                        <div class="pcard__side">
+                            <span class="badge-tu" data-class="estadoClass" data-text="estado"></span>
+                            <div class="dropdown">
+                                <button class="pcard__menu dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false" data-attr="aria-label:menuAria"><i
+                                        class="bi bi-three-dots-vertical"></i></button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item small" data-attr="href:href">Ver tareas</a></li>
+                                    <li><button class="dropdown-item small" type="button" data-action="members"
+                                            data-attr="data-id:id" data-text="miembrosAccion"></button></li>
+                                    <li data-admin-only><button class="dropdown-item small" type="button"
+                                            data-action="edit" data-attr="data-id:id">Editar</button></li>
+                                    <li data-admin-only><button class="dropdown-item small text-danger" type="button"
+                                            data-action="delete" data-attr="data-id:id">Eliminar</button></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="tag" data-text="curso"></span>
+                    <span class="badge-sm badge-alta ms-2" data-attention data-attr="title:motivosTexto"><i
+                            class="bi bi-exclamation-triangle"></i> Necesita atención</span>
+                    <p class="pcard__desc" data-text="descripcion"></p>
+                </div>
+            </div>
+            <div class="pcard__meta"><span><i class="bi bi-calendar3"></i>Entrega: <span
+                        data-text="entrega"></span></span><span><i class="bi bi-people"></i><span
+                        data-text="nIntegrantes"></span> integrantes</span></div>
+            <p class="pcard__label">Avance del proyecto <small class="text-muted">(<span data-text="hechas"></span> de
+                    <span data-text="total"></span> tareas)</small></p>
+            <div class="pcard__bar">
+                <div class="progress">
+                    <div class="progress-bar" data-style="width:ancho; background:barra"></div>
+                </div><span data-text="avancePct"></span>
+            </div>
+            <div class="pcard__foot"><span data-slot="avatars"></span><a class="pcard__more" data-attr="href:href">Ver
+                    detalles <i class="bi bi-chevron-right"></i></a></div>
+        </article>
+    </template>
+
+    <div data-include="partials/toast.html"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="js/pages/proyectos.js"></script>
+</body>
+
+</html>

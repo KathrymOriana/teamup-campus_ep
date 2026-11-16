@@ -1,0 +1,25 @@
+package com.campus.teamup.config;
+
+import java.io.IOException;
+
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+/** Fuerza a que la cookie XSRF-TOKEN se envíe al navegador en cada respuesta (patrón oficial para clientes JS). */
+final class CsrfCookieFilter extends OncePerRequestFilter {
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws ServletException, IOException {
+        CsrfToken token = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+        if (token != null) {
+            token.getToken(); // carga el token diferido y escribe la cookie
+        }
+        chain.doFilter(request, response);
+    }
+}

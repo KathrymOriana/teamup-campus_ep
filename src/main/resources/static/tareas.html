@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#3b46d9">
+    <title>Tareas | TeamUp Campus</title>
+    <meta name="description" content="Organiza, asigna y da seguimiento a las tareas de tus proyectos.">
+    <meta name="author" content="Kathrym Oriana">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="assets/svg/logo.svg">
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="app">
+        <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+        <aside class="sidebar" id="sidebar" aria-label="Navegación principal" data-include="partials/sidebar.html">
+        </aside>
+
+        <div class="main main--page">
+            <header class="topbar topbar--free" data-include="partials/topbar.html"></header>
+
+            <main class="tasks-layout">
+                <div class="tasks-layout__main">
+                    <section class="banner" aria-labelledby="titulo">
+                        <img class="banner__icon" src="assets/img/icono-tareas.png" alt="">
+                        <div>
+                            <h1 id="titulo">Tareas</h1>
+                            <p>Organiza, asigna y da seguimiento a las tareas de tus proyectos.</p>
+                        </div>
+                        <img class="banner__img" src="assets/img/hero-tareas.png" alt="">
+                    </section>
+
+                    <section class="stats-row stats-row--tareas" aria-label="Resumen de tareas">
+                        <article class="stat-h stat-h--blue"><span class="stat-h__icon"><i
+                                    class="bi bi-clipboard-check"></i></span>
+                            <div>
+                                <p class="stat-h__label">Total de tareas</p>
+                                <p class="stat-h__value" id="resTotal">0</p>
+                            </div>
+                        </article>
+                        <article class="stat-h stat-h--green"><span class="stat-h__icon"><i
+                                    class="bi bi-check-lg"></i></span>
+                            <div>
+                                <p class="stat-h__label">Completadas</p>
+                                <p class="stat-h__value" id="resCompletadas">0</p>
+                            </div><span class="stat-h__pct" id="resCompletadasPct"></span>
+                        </article>
+                        <article class="stat-h stat-h--sky"><span class="stat-h__icon"><i
+                                    class="bi bi-clock"></i></span>
+                            <div>
+                                <p class="stat-h__label">En progreso</p>
+                                <p class="stat-h__value" id="resProgreso">0</p>
+                            </div><span class="stat-h__pct" id="resProgresoPct"></span>
+                        </article>
+                        <article class="stat-h stat-h--red"><span class="stat-h__icon"><i
+                                    class="bi bi-exclamation-circle-fill"></i></span>
+                            <div>
+                                <p class="stat-h__label">Pendientes</p>
+                                <p class="stat-h__value" id="resPendientes">0</p>
+                            </div><span class="stat-h__pct" id="resPendientesPct"></span>
+                        </article>
+                    </section>
+
+                    <form class="filters filters--tareas" aria-label="Filtros de tareas">
+                        <div class="filters__search"><i class="bi bi-search"></i><input id="fBuscar" type="search"
+                                placeholder="Buscar tareas..." aria-label="Buscar tareas"></div>
+                        <label class="filters__select"><i class="bi bi-book"></i><select id="fProyecto"
+                                class="form-select" aria-label="Proyecto"></select></label>
+                        <label class="filters__select"><i class="bi bi-person"></i><select id="fResp"
+                                class="form-select" aria-label="Responsable"></select></label>
+                        <label class="filters__select"><i class="bi bi-clock"></i>
+                            <select id="fEstado" class="form-select" aria-label="Estado">
+                                <option value="">Todos los estados</option>
+                                <option>Completada</option>
+                                <option>En progreso</option>
+                                <option>Pendiente</option>
+                            </select></label>
+                        <label class="filters__select"><i class="bi bi-arrow-down-up"></i>
+                            <select id="fOrden" class="form-select" aria-label="Ordenar">
+                                <option value="lista">Ordenar por: Fecha límite</option>
+                                <option value="fecha">Fecha más próxima</option>
+                                <option value="prioridad">Prioridad</option>
+                                <option value="proyecto">Proyecto</option>
+                            </select></label>
+                    </form>
+
+                    <section class="tu-card table-card" aria-label="Lista de tareas">
+                        <div class="table-responsive">
+                            <table class="table tareas-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"><input class="form-check-input" type="checkbox" id="chkTodas"
+                                                aria-label="Seleccionar todas"></th>
+                                        <th scope="col">Tarea</th>
+                                        <th scope="col">Proyecto</th>
+                                        <th scope="col">Responsable</th>
+                                        <th scope="col">Prioridad</th>
+                                        <th scope="col">Fecha límite</th>
+                                        <th scope="col">Estado</th>
+                                        <th scope="col" class="text-center">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="filas"></tbody>
+                            </table>
+                        </div>
+                        <p class="empty" id="vacio" hidden>
+                            <span id="vacioFiltros">No se encontraron tareas con esos filtros. <button type="button"
+                                    class="btn btn-link p-0 align-baseline" data-action="clear">Limpiar
+                                    filtros</button></span>
+                            <span id="vacioNueva" hidden>Todavía no hay tareas. <button type="button"
+                                    class="btn btn-link p-0 align-baseline" data-action="new">Crea la
+                                    primera</button></span>
+                        </p>
+                        <footer class="table-foot">
+                            <span id="contador"></span>
+                            <nav aria-label="Paginación">
+                                <ul class="pagination" id="paginacion"></ul>
+                            </nav>
+                        </footer>
+                    </section>
+                </div>
+
+                <aside class="tasks-layout__side" aria-label="Filtros rápidos">
+                    <button class="btn btn-tu btn-new" type="button" id="btnNueva"><i class="bi bi-plus-lg"></i> Nueva
+                        tarea</button>
+                    <section class="tu-card quick" aria-labelledby="t-fr" id="filtrosRapidos">
+                        <h2 id="t-fr">Filtros rápidos</h2>
+                        <ul class="quick__list" id="qRapidos"></ul>
+                        <h3>Por estado</h3>
+                        <ul class="quick__list quick__list--dots" id="qEstado"></ul>
+                        <hr>
+                        <h3>Por prioridad</h3>
+                        <ul class="quick__list quick__list--dots" id="qPrioridad"></ul>
+                    </section>
+                    <section class="tu-card meet" aria-label="Coordinación">
+                        <i class="bi bi-calendar3"></i>
+                        <h2>¿Necesitas una reunión?</h2>
+                        <p>La coordinación de reuniones llega en la siguiente entrega. <span
+                                class="badge-sm badge-pendiente">Próximamente</span></p>
+                    </section>
+                </aside>
+            </main>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalTarea" tabindex="-1" aria-labelledby="modalTitulo" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <form class="modal-content" id="formTarea" novalidate>
+                <div class="modal-header">
+                    <h2 class="modal-title fs-5" id="modalTitulo">Nueva tarea</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body d-grid gap-3">
+                    <div><label class="form-label" for="mTitulo">Título</label><input class="form-control" id="mTitulo"
+                            maxlength="150" required></div>
+                    <div><label class="form-label" for="mDesc">Descripción</label><textarea class="form-control"
+                            id="mDesc" rows="2" maxlength="500"></textarea></div>
+                    <div class="row g-3">
+                        <div class="col-6"><label class="form-label" for="mProyecto">Proyecto</label><select
+                                class="form-select" id="mProyecto"></select></div>
+                        <div class="col-6"><label class="form-label" for="mResp">Responsable</label><select
+                                class="form-select" id="mResp"></select></div>
+                        <div class="col-4"><label class="form-label" for="mPrioridad">Prioridad</label>
+                            <select class="form-select" id="mPrioridad">
+                                <option>Alta</option>
+                                <option selected>Media</option>
+                                <option>Baja</option>
+                            </select>
+                        </div>
+                        <div class="col-4"><label class="form-label" for="mFecha">Fecha límite</label><input type="date"
+                                class="form-control" id="mFecha" required></div>
+                        <div class="col-4"><label class="form-label" for="mEstado">Estado</label>
+                            <select class="form-select" id="mEstado">
+                                <option>Pendiente</option>
+                                <option>En progreso</option>
+                                <option>Completada</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-tu">Guardar tarea</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <template id="tpl-task-row">
+        <tr data-class="filaClass">
+            <td><input class="form-check-input chk" type="checkbox" data-action="toggle"
+                    data-attr="data-id:id; aria-label:chkAria; checked:completada; disabled:bloqueada; title:ayuda">
+            </td>
+            <td>
+                <p class="t-title" data-text="titulo"></p>
+                <p class="t-desc" data-text="descripcion"></p>
+            </td>
+            <td>
+                <p class="t-proj" data-text="proyecto"></p>
+                <span class="tag tag--sm" data-text="curso"></span>
+            </td>
+            <td>
+                <div class="t-resp">
+                    <span data-slot="resp"></span>
+                    <span data-text="responsable"></span>
+                </div>
+            </td>
+            <td>
+                <span class="badge-sm" data-class="prioClass" data-text="prioridad"></span>
+            </td>
+            <td data-class="fechaClass" data-text="fecha"></td>
+            <td>
+                <span class="badge-sm" data-class="estadoClass" data-text="estado"></span> 
+                <span class="badge-sm badge-alta" data-late>Vencida</span>
+            </td>
+            <td>
+                <div class="t-actions" data-editable>
+                    <button type="button" data-action="edit" data-attr="data-id:id" aria-label="Editar"><i
+                            class="bi bi-pencil"></i></button>
+                    <button type="button" data-action="delete" data-attr="data-id:id" aria-label="Eliminar"><i
+                            class="bi bi-trash"></i></button>
+                </div>
+                <span class="text-muted" data-readonly>—</span>
+            </td>
+        </tr>
+    </template>
+
+    <template id="tpl-quick-item">
+        <li><button type="button" data-attr="data-tipo:tipo; data-valor:valor">
+                <span class="d" data-dot data-style="background:color"></span><i class="bi" data-icon
+                    data-class="icono"></i><span data-text="texto"></span><span class="n" data-text="n"></span>
+            </button></li>
+    </template>
+
+    <template id="tpl-page-item">
+        <li class="page-item" data-class="itemClass"><button class="page-link" type="button"
+                data-attr="data-pag:page; disabled:disabled; aria-label:aria" data-text="label"></button></li>
+    </template>
+
+    <div data-include="partials/toast.html"></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="js/pages/tareas.js"></script>
+</body>
+
+</html>
