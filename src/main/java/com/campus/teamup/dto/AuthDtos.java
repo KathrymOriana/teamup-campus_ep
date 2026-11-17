@@ -11,7 +11,6 @@ public final class AuthDtos {
     private static final String PASSWORD_RULE = "^(?=.*[A-Za-z])(?=.*\\d).{8,}$";
     private static final String PASSWORD_MESSAGE = "Usa al menos 8 caracteres, con letras y números.";
 
-    /** Estado de la sesión actual: siempre responde 200, con o sin usuario. */
     public record SessionResponse(boolean authenticated, UserResponse user) { }
 
     public record LoginRequest(

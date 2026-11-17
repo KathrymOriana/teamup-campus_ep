@@ -27,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Datos de ejemplo para la demostración. Solo se cargan si la base está vacía.
- * Las fechas son relativas a hoy, para que las tareas vencidas y los avances siempre se vean "vivos".
  * Cuentas de prueba: ana.lopez@campus.edu, carlos.rojas@campus.edu... (contraseña: teamup123).
  */
 @Component

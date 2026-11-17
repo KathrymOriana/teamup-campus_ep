@@ -29,7 +29,7 @@ import com.campus.teamup.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/** Casos de uso de proyectos. El avance, el atraso y las alertas se calculan aquí, nunca en el navegador. */
+/** El avance, el atraso y las alertas se calculan aquí, nunca en el navegador. */
 @Service
 @Transactional(readOnly = true)
 public class ProjectService {

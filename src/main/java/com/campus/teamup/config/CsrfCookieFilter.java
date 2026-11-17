@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-/** Fuerza a que la cookie XSRF-TOKEN se envíe al navegador en cada respuesta (patrón oficial para clientes JS). */
+/** Fuerza a que la cookie XSRF-TOKEN se envíe al navegador en cada respuesta. */
 final class CsrfCookieFilter extends OncePerRequestFilter {
 
     @Override
@@ -18,7 +18,7 @@ final class CsrfCookieFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         CsrfToken token = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
         if (token != null) {
-            token.getToken(); // carga el token diferido y escribe la cookie
+            token.getToken();
         }
         chain.doFilter(request, response);
     }

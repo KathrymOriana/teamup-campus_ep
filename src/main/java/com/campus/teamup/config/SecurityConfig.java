@@ -23,7 +23,6 @@ import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 
 /**
  * Seguridad: sesión HTTP + cookie de sesión HttpOnly + protección CSRF (cookie XSRF-TOKEN / cabecera X-XSRF-TOKEN).
- * Los archivos estáticos (HTML/CSS/JS) son públicos; toda la API requiere sesión salvo login, registro y recuperación.
  */
 @Configuration
 @EnableWebSecurity

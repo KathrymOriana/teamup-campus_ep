@@ -1,14 +1,7 @@
 /**
- * Utilidades de DOM. La estructura HTML vive en los .html (como <template>); el JavaScript solo
- * clona esas plantillas y rellena los datos con textContent (sin innerHTML, así no hay XSS).
- *
- * Convención en las plantillas:
- *   data-text="clave"                    -> textContent
- *   data-attr="atributo:clave; otro:k2"  -> setAttribute (si el valor es nulo, quita el atributo)
- *   data-style="propiedad:clave"         -> style.setProperty
- *   data-class="clave"                   -> añade las clases del valor
- *   data-slot="clave"                    -> recibe nodos hijos (ver parámetro `slots`)
+ * Utilidades de DOM.
  */
+
 export const $ = (id) => document.getElementById(id);
 export const qs = (selector, root = document) => root.querySelector(selector);
 export const qsa = (selector, root = document) => [...root.querySelectorAll(selector)];

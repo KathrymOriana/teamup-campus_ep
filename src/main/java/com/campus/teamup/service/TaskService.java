@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Casos de uso de tareas y sus reglas de permisos:
  * - El administrador del proyecto crea, asigna, edita y elimina cualquier tarea.
  * - Un integrante solo puede crear tareas para sí mismo y editar o completar las que le asignaron.
  */

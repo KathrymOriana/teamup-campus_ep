@@ -9,7 +9,6 @@ export function toast(message, type = 'success') {
     new bootstrap.Toast(element, { delay: 3000 }).show();
 }
 
-/** Valida un formulario con las reglas HTML5 y marca los campos faltantes. */
 export function validate(form) {
     form.classList.add('was-validated');
     if (form.checkValidity()) return true;
